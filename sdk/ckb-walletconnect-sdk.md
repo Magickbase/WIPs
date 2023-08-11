@@ -147,7 +147,7 @@ await ckbWC.signTransaction(params)
 }
 ```
 
-### Sign Message
+#### Sign Message
 
 Get a signature for the provided message from the requested signer address.
 ```
@@ -168,7 +168,7 @@ const signature = await ckbWC.signMessage(params)
 }
 ```
 
-### Listen Account Changed Event
+#### Listen Account Changed Event
 
 ```
 ckbWC.onAccountChanged((event) => {
@@ -183,7 +183,7 @@ ckbWC.onAccountChanged((event) => {
 }
 ```
 
-### Listen Addresses Changed Event
+#### Listen Addresses Changed Event
 
 ```
 ckbWC.onAddressesChanged((event) => {
@@ -198,7 +198,7 @@ ckbWC.onAddressesChanged((event) => {
 }[]
 ```
 
-### Listen Chain Changed Event
+#### Listen Chain Changed Event
 
 ```
 ckbWC.onChainChanged((event) => {
