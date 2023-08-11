@@ -21,6 +21,7 @@ User will encounter two namespaces: the proposal namespace and the session names
 ## Specification
 
 Here is an example of a session approval message, passing the namespace.
+
 ```
 {
   ...
@@ -227,4 +228,5 @@ event: {
 
 ## Reference
 
-1. Namespaces https://docs.walletconnect.com/2.0/specs/clients/sign/namespaces
+1. [Reference-level explanation](](./Reference-level-explanation.md))
+2. Namespaces https://docs.walletconnect.com/2.0/specs/clients/sign/namespaces
