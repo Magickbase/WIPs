@@ -74,7 +74,7 @@ Get the active address list by specific lock script types
 - Parameters
 ```
 {
-    ['xxxxxx' ] :{ // lock code hash
+    [<lock code hash>] :{
        page: {
          size: number
          before: number
@@ -88,8 +88,8 @@ Get the active address list by specific lock script types
 - Returns
 ```
 {
-    'xxxxxx' : Address[],
-    'xxxxxx' : Address[],
+    '<lock code hash a>' : Address[],
+    '<lock code hash b>' : Address[],
 }
 ```
 
