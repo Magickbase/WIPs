@@ -1,5 +1,21 @@
 # Reference-level explanation
 
+Here is a flowchart illustrating this linking process:
+
+```mermaid
+graph TB
+  dAppGenerateQR[dApp: Generate QR Code] -- URI --> walletScanQR[Wallet: Scan QR Code]
+  walletScanQR -- Extract symKey, topic, relay info --> walletConnect[Wallet: Connect to Relay Server]
+  walletConnect -- Subscribe to topic --> walletSubscribed[Wallet: Subscribed to Topic]
+  dAppConnect[dApp: Connect to Relay Server] --> dAppSubscribed[dApp: Subscribed to Topic]
+  dAppSubscribed -- Send encrypted session_proposal --> walletSubscribed
+  walletSubscribed -- Receive session_proposal --> walletReview[Wallet: Approve or Reject]
+  walletReview -- Send encrypted approve_session --> dAppReceiveApprove[dApp: Receive approve_session]
+  dAppReceiveApprove --> dAppSecureCommunication[dApp: Establish secure communication]
+  walletReview --> walletSecureCommunication[Wallet: Establish secure communication]
+```
+
+
 https://github.com/Magickbase/neuron-public-issues/assets/11756869/50deb328-171a-4237-985d-daa85238b9d2
 
 

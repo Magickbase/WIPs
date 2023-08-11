@@ -228,5 +228,5 @@ event: {
 
 ## Reference
 
-1. [Reference-level explanation](](./Reference-level-explanation.md))
+1. [Reference-level explanation](./Reference-level-explanation.md)
 2. Namespaces https://docs.walletconnect.com/2.0/specs/clients/sign/namespaces
