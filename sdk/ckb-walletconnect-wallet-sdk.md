@@ -62,34 +62,34 @@ await ckbWallet.disconnect(session)
 
 ### Approve a specific connection proposal
 ```
-const proposal = sdk.proposals[0]
-await sdk.approveProposal(proposal, {
+const proposal = ckbWallet.proposals[0]
+await ckbWallet.approveProposal(proposal, {
   account: "ckb:testnet:ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwh8z6fkne05j0emqeen59qnn8a6xkm3fs0xf9en"
 })
 ```
 
 ### Reject a specific connection proposal
 ```
-const proposal = sdk.proposals[0]
-await sdk.rejectProposal(proposal)
+const proposal = ckbWallet.proposals[0]
+await ckbWallet.rejectProposal(proposal)
 ```
 
 ### Approve a specific session request
 ```
-const request = sdk.requests[0]
-await sdk.approveRequest(request)
+const request = ckbWallet.requests[0]
+await ckbWallet.approveRequest(request)
 ```
 
 ### Reject a specific session request
 ```
-const request = sdk.requests[0]
-await sdk.rejectRequest(request)
+const request = ckbWallet.requests[0]
+await ckbWallet.rejectRequest(request)
 ```
 
 ### Emit a event to a specific dapp session
 ```
 const session = ckbWallet.sessions[0]
-await sdk.emitEvent(session, {
+await ckbWallet.emitEvent(session, {
   name: 'chainChanged',
   data: ['ckb:testnet']
 })
