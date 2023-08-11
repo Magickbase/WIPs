@@ -190,7 +190,7 @@ ckbWC.onAddressesChanged((event) => {
   // console.log(event) 
 })
 ```
-
+- Event
 ```
 {
   ...Address,
