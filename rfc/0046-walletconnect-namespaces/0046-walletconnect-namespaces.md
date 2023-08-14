@@ -93,27 +93,6 @@ Get the active address list by specific lock script types
 }
 ```
 
-#### ckb_generateAddresses
-
-Allow a cold wallet to authorize dapps to generate addresses.
-
-For context, see the [doc](https://github.com/Magickbase/neuron-public-issues/issues/180)
-
-- Parameters
-```
-{
-    num: number // count of addresses to generate
-    description: string
-}
-```
-
-- Returns
-```
-{
-    address: Address[]
-}
-```
-
 #### ckb_signTransaction
 
 Get a transaction over the provided instructions.
