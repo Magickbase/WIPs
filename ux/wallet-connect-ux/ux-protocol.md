@@ -138,7 +138,6 @@ When dapp initializes a transaction, this component will pop up/ show, And these
 
 - Normally, if the user want sign the transaction by simply click the NEXT btn then click CONFIRM btn.
 ![picture 27](pic/confirm-reject.png)  
-![pic 2](pic/confirm-reject.png)  
 
 
 - To reject or cancel this transaction , you can click REJECT Btn
