@@ -121,7 +121,7 @@ Users should be familiar with, understand, and trust the content of their signat
 | Send a transaction | Network | Label | MUST | The network that dapp wants the user to sign on |
 | Send a transaction | Payment method | Label | SHOULD | Currently, the CKB transactions are all TRANSFER. |
 | Send a transaction | To Address List | Label | MUST | **There could be more than 1 address in this case. So the whole list should also be shown to the user.** |
-| Send a transaction | Asset Amounts | Label | MUST | This value represents the total capacity change of connected addresses in this transaction. And if there is any other kind of Cell like SUDT or NFT and so on, a **label** MUST be marked between the CKB number, like 1,00,300CKB*(including 10SUDT).|
+| Send a transaction | Asset Amounts | Label | MUST | This value represents the total capacity change of connected addresses in this transaction. And if there is any other kind of Cell like SUDT or NFT and so on, a **label** MUST be marked next to the CKB number, like 1,00,300CKB*(including 10SUDT).|
 | Send a transaction | Fee or Fee Rate | Label | MUST | -- |
 | Send a transaction | Description | Label | MUST | -- |
 | Send a transaction | Locktime | Label | OPTIONAL | -- |
