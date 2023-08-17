@@ -6,17 +6,17 @@ Author: fefe@magickbase.com
 Created: 2022-08-08
 ---
 
-# WalletConnect Namepsaces Protocol
+# WalletConnect Namespaces Protocol
 
 ## Abstract
 
-This RFC describes a namepsaces protocol which is a standardized object defined by the [Chain Agnostic Improvement Proposal (CAIP)](https://github.com/ChainAgnostic/CAIPs) that ensures a common industry standard for chain agnostic purposes.
+This RFC describes a namespaces protocol which is a standardized object defined by the [Chain Agnostic Improvement Proposal (CAIP)](https://github.com/ChainAgnostic/CAIPs) that ensures a common industry standard for chain agnostic purposes.
 
 ## Motivation
 
 WalletConnect is an open-source protocol that enables secure and seamless communication between decentralized applications (dApps) and wallets on various blockchains. By establishing a remote connection using end-to-end encryption, WalletConnect allows users to interact with dApps through their preferred wallet without exposing their private keys.
 
-User will encounter two namespaces: the proposal namespace and the session namespace when connects wallets and dapps.Upon approval, the wallet will then send a session namespace which includes all of the chains, methods, and events it has approved.
+User will encounter two namespaces: the proposal namespace and the session namespace when connects wallets and dapps. Upon approval, the wallet will then send a session namespace which includes all of the chains, methods, and events it has approved.
 
 ## Specification
 
@@ -39,7 +39,7 @@ Here is an example of a session approval message, passing the namespace.
 
 ### chains
 
-In CAIP-2, ageneral blockchain identification schema is defined. This is the implementation of [CAIP-2](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-2.md) for the CKB network.
+In CAIP-2, a general blockchain identification schema is defined. This is the implementation of [CAIP-2](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-2.md) for the CKB network.
 
 
 Component | Description
