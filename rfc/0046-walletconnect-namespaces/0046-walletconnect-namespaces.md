@@ -1,5 +1,5 @@
 ---
-Number: '0047'
+Number: "0047"
 Category: Standards Track
 Status: Proposal
 Author: fefe@magickbase.com
@@ -60,6 +60,42 @@ For context, see the [CAIP-10](https://github.com/ChainAgnostic/CAIPs/blob/maste
 | chain_id               | One of (mainnet, testnet, devnet)                |
 | identity               | The hash obtained by the first pk of the account |
 
+### Types
+
+```
+interface Address {
+  address: string
+  identifier: string
+  description: string
+  type: 0 | 1 // 0 for receiving, 1 for change
+  txCount: number
+  balance: string
+  index: number
+}
+
+interface Transaction {
+  type: 'send' | 'receive' | 'create' | 'destroy'
+  createdAt: string
+  updatedAt: string
+  timestamp: string
+  value: string
+  hash: string
+  description: string
+  blockNumber: string
+  status: 'pending' | 'success' | 'failed'
+  nervosDao: boolean
+  sudtInfo?: {
+    sUDT: Record<'tokenID' | 'tokenName' | 'symbol' | 'decimal', string>
+    amount: string
+  }
+  nftInfo?: {
+    type: 'send' | 'receive'
+    data: string
+  }
+  assetAccountType?: 'CKB' | 'sUDT' | string
+}
+```
+
 ### methods
 
 #### ckb_getAddresses
@@ -76,7 +112,7 @@ Get the active address list by specific lock script base[^1], in the format of `
          before: number
          after: number
        },
-       type: 'derived' | 'all'
+       type: 'generate' | 'all' // generate: generate new addresses; all: 
    }
 }
 ```
@@ -187,7 +223,7 @@ event: {
    name: "addressesChanged",
    data: {
         ...Address,
-        changeType: 'add' | 'consume'
+        changeType: 'add' | 'consume' // add: new addresses created; consume: addresses consumed
     }[]
 }
 ```
