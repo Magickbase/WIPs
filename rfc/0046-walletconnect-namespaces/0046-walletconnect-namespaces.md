@@ -1,5 +1,5 @@
 ---
-Number: "0046"
+Number: '0047'
 Category: Standards Track
 Status: Proposal
 Author: fefe@magickbase.com
@@ -16,21 +16,21 @@ This RFC describes a namespaces protocol which is a standardized object defined 
 
 WalletConnect is an open-source protocol that enables secure and seamless communication between decentralized applications (dApps) and wallets on various blockchains. By establishing a remote connection using end-to-end encryption, WalletConnect allows users to interact with dApps through their preferred wallet without exposing their private keys.
 
-User will encounter two namespaces: the proposal namespace and the session namespace when connects wallets and dapps. Upon approval, the wallet will then send a session namespace which includes all of the chains, methods, and events it has approved.
+Users will encounter two namespaces: the proposal namespace and the session namespace when connecting wallets and dApps. Upon approval, the wallet will then send a session namespace that includes all the accounts, chains, methods, and events it has approved.
 
 ## Specification
 
-Here is an example of a session approval message, passing the namespace.
+Here is an example of a session approval message passing the namespace.
 
 ```
 {
   ...
     "namespaces": {
       "ckb": {
-        "accounts": [ "ckb:mainnet:xxxxx" ],
         "chains": [ "ckb:mainnet", ... ],
-        "events": [ "accountChanged", ... ],
+        "accounts": [ "ckb:mainnet:${account_id}" ],
         "methods": [ "ckb_signTransaction", ... ],
+        "events": [ "accountChanged", ... ],
       }
     }
   ...
@@ -39,16 +39,13 @@ Here is an example of a session approval message, passing the namespace.
 
 ### chains
 
-In CAIP-2, a general blockchain identification schema is defined. This is the implementation of [CAIP-2](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-2.md) for the CKB network.
+A general blockchain identification schema has been defined in [CAIP-2](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-2.md). Its implementation for the CKB blockchain is as stated below
 
-
-Component | Description
--- | --
-caip2-like chain | namespace + : + chainId
-namespace | ckb
-chainId | One of (mainnet, testnet, devnet)
-
-<a name="accounts"/>
+| Component           | Description                       |
+| ------------------- | --------------------------------- |
+| caip2-like chain_id | namespace + : + chain_reference   |
+| namespace           | ckb                               |
+| chain_reference     | One of (mainnet, testnet, devnet) |
 
 ### accounts
 
@@ -56,25 +53,24 @@ chainId | One of (mainnet, testnet, devnet)
 
 For context, see the [CAIP-10](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-10.md) specification.
 
-Component | Description
--- | --
-caip10-like account | namespace + : + chainId + : + identity
-namespace | ckb
-chainId | One of (mainnet, testnet, devnet)
-identity | The hash obtained by the first pk of the account
-
-<a name="methods"/>
+| Component              | Description                                      |
+| ---------------------- | ------------------------------------------------ |
+| caip10-like account_id | namespace + : + chain_reference + : + identity   |
+| namespace              | ckb                                              |
+| chain_id               | One of (mainnet, testnet, devnet)                |
+| identity               | The hash obtained by the first pk of the account |
 
 ### methods
 
 #### ckb_getAddresses
 
-Get the active address list by specific lock script types
+Get the active address list by specific lock script base[^1], in the format of `<code_hash>:<hash_type>`.
 
 - Parameters
+
 ```
 {
-    [<lock code hash>] :{
+    [<script_base>] :{
        page: {
          size: number
          before: number
@@ -86,10 +82,11 @@ Get the active address list by specific lock script types
 ```
 
 - Returns
+
 ```
 {
-    '<lock code hash a>' : Address[],
-    '<lock code hash b>' : Address[],
+    '<script_base a>' : Address[],
+    '<script_base b>' : Address[],
 }
 ```
 
@@ -98,8 +95,9 @@ Get the active address list by specific lock script types
 Get a transaction over the provided instructions.
 
 - Parameters
+
 ```
-{ 
+{
   data: {
      cell_deps: {
        out_point: {
@@ -136,6 +134,7 @@ Get a transaction over the provided instructions.
 ```
 
 - Returns
+
 ```
 {
   transaction: Transaction
@@ -147,6 +146,7 @@ Get a transaction over the provided instructions.
 Get a signature for the provided message from the requested signer address.
 
 - Parameters
+
 ```
 {
    message: string, // the message to sign
@@ -155,13 +155,12 @@ Get a signature for the provided message from the requested signer address.
 ```
 
 - Returns
+
 ```
 {
   signature: string
 }
 ```
-
-<a name="events"/>
 
 ### events
 
@@ -193,7 +192,6 @@ event: {
 }
 ```
 
-
 #### chainChanged
 
 Emit the event when the chain changed
@@ -205,7 +203,11 @@ event: {
 }
 ```
 
-## Reference
+## Further reading
 
 1. [Reference-level explanation](./Reference-level-explanation.md)
 2. Namespaces https://docs.walletconnect.com/2.0/specs/clients/sign/namespaces
+
+## Refs
+
+[^1]: Script Base: It's the combination of `code_hash` and `hash_type` of a specific `script` in the format `<code_hash>:<hash_type>`. Without a concrete `args` of the `script`, the `script base` refers to the set of an abstract script. The relation between `script base` and `script` can be considered as `class` and `instance`.
