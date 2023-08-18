@@ -60,7 +60,7 @@ For context, see the [CAIP-10](https://github.com/ChainAgnostic/CAIPs/blob/maste
 | chain_id               | One of (mainnet, testnet, devnet)                |
 | identity               | The hash obtained by the first pk of the account |
 
-### Types
+- Types
 
 ```
 interface Address {
@@ -112,7 +112,7 @@ Get the active address list by specific lock script base[^1], in the format of `
          before: number
          after: number
        },
-       type: 'generate' | 'all' // generate: generate new addresses; all: 
+       type: 'generate' | 'all' // generate: generate <size> new addresses; all: get <size> addresses
    }
 }
 ```
