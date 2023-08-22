@@ -63,87 +63,43 @@ For context, see the [CAIP-10](https://github.com/ChainAgnostic/CAIPs/blob/maste
 | chain_id               | One of (mainnet, testnet, devnet)                |
 | identity               | The hash obtained by the first pk of the account |
 
-### scriptBases
-Script Base: It's the combination of `code_hash` and `hash_type` of a specific `script` in the format `<code_hash>:<hash_type>`. Without a concrete `args` of the `script`, the `script base` refers to the set of an abstract script. The relation between `script base` and `script` can be considered as `class` and `instance`.
-
-### Types
-
-- Address
-```
-interface Address {
-  address: string
-  identifier: string
-  description: string
-  type: 0 | 1 // 0 for receiving, 1 for change
-  txCount: number
-  balance: string
-  index: number
-}
-```
-
-- Transaction
-
-```
-interface Transaction {
-  type: 'send' | 'receive' | 'create' | 'destroy'
-  createdAt: string
-  updatedAt: string
-  timestamp: string
-  value: string
-  hash: string
-  description: string
-  blockNumber: string
-  status: 'pending' | 'success' | 'failed'
-  nervosDao: boolean
-  sudtInfo?: {
-    sUDT: Record<'tokenID' | 'tokenName' | 'symbol' | 'decimal', string>
-    amount: string
-  }
-  nftInfo?: {
-    type: 'send' | 'receive'
-    data: string
-  }
-  assetAccountType?: 'CKB' | 'sUDT' | string
-}
-```
-
 ### methods
 
 #### ckb_getAddresses
 
-Get the active address list by specific lock script base[^1], in the format of `<code_hash>:<hash_type>`.
+Get the Address[^1] list by specific lock script base[^2], in the format of `<code_hash>:<hash_type>`.
 
 - Parameters
 
-```
+```ts
 {
     [<script_base>] :{
        page: {
-         size: number
-         before: number
-         after: number
+         size: number           // the size of address list to return
+         before: string         // used as the end point of the returned address list(excluded)
+         after: string          // used as the start point of the returned address(excluded)
        },
-       type: 'generate' | 'all' // generate: generate <size> new addresses; all: get <size> addresses
+       type: 'generate' | 'all' // set 'generate' to generate new addresses if necessary; set 'all' to get existent addresses
    }
 }
 ```
 
 - Returns
 
-```
+```ts
 {
-    '<script_base a>' : Address[],
-    '<script_base b>' : Address[],
+    '<script_base x>' : Address[],
+    '<script_base y>' : Address[],
 }
 ```
 
 #### ckb_signTransaction
 
-Get a transaction over the provided instructions.
+Get a Transaction[^3] over the provided instructions.
 
 - Parameters
 
-```
+```ts
 {
   data: {
      cell_deps: {
@@ -182,7 +138,7 @@ Get a transaction over the provided instructions.
 
 - Returns
 
-```
+```ts
 {
   transaction: Transaction
 }
@@ -190,11 +146,11 @@ Get a transaction over the provided instructions.
 
 #### ckb_signMessage
 
-Get a signature for the provided message from the requested signer address.
+Get a signature for the provided message from the specified signer address.
 
 - Parameters
 
-```
+```ts
 {
    message: string, // the message to sign
    address: string  // address of which private to sign
@@ -203,7 +159,7 @@ Get a signature for the provided message from the requested signer address.
 
 - Returns
 
-```
+```ts
 {
   signature: string
 }
@@ -215,8 +171,8 @@ Get a signature for the provided message from the requested signer address.
 
 Emit the event when the account changed
 
-```
-event: {
+```ts
+{
    name: "accountChanged",
    data: {
        account: string,
@@ -229,8 +185,8 @@ event: {
 
 Emit the event when addresses changed
 
-```
-event: {
+```ts
+{
    name: "addressesChanged",
    data: {
         ...Address,
@@ -243,10 +199,52 @@ event: {
 
 Emit the event when the chain changed
 
-```
-event: {
+```ts
+{
    name: "chainChanged",
    data: string,
+}
+```
+
+### compound types
+
+#### Address
+
+```ts
+interface Address {
+  address: string
+  identifier: string
+  description: string
+  type: 0 | 1 // 0 for receiving, 1 for change
+  txCount: number
+  balance: string
+  index: number
+}
+```
+
+#### Transaction
+
+```ts
+interface Transaction {
+  type: 'send' | 'receive' | 'create' | 'destroy'
+  createdAt: string
+  updatedAt: string
+  timestamp: string
+  value: string
+  hash: string
+  description: string
+  blockNumber: string
+  status: 'pending' | 'success' | 'failed'
+  nervosDao: boolean
+  sudtInfo?: {
+    sUDT: Record<'tokenID' | 'tokenName' | 'symbol' | 'decimal', string>
+    amount: string
+  }
+  nftInfo?: {
+    type: 'send' | 'receive'
+    data: string
+  }
+  assetAccountType?: 'CKB' | 'sUDT' | string
 }
 ```
 
@@ -257,4 +255,6 @@ event: {
 
 ## Refs
 
-[^1]: Script Base: It's the combination of `code_hash` and `hash_type` of a specific `script` in the format `<code_hash>:<hash_type>`. Without a concrete `args` of the `script`, the `script base` refers to the set of an abstract script. The relation between `script base` and `script` can be considered as `class` and `instance`.
+[^1]: Address: a compound type of CKB address, defined as [Address](#address);
+[^2]: Script Base: It's the combination of `code_hash` and `hash_type` of a specific `script` in the format `<code_hash>:<hash_type>`. Without a concrete `args` of the `script`, the `script base` refers to the set of an abstract script. The relation between `script base` and `script` can be considered as `class` and `instance`;
+[^3]: Transaction: a compound type of CKB transaction, defined as [Transaction](#transaction).
