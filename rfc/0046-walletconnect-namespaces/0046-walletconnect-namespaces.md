@@ -32,7 +32,10 @@ Here is an example of a session approval message passing the namespace.
         "methods": [ "ckb_signTransaction", ... ],
         "events": [ "accountChanged", ... ],
       }
-    }
+    },
+    "sessionProperties": {
+      "script_bases": "<script_base a>,<script_base b>",
+    },
   ...
 }
 ```
@@ -60,8 +63,12 @@ For context, see the [CAIP-10](https://github.com/ChainAgnostic/CAIPs/blob/maste
 | chain_id               | One of (mainnet, testnet, devnet)                |
 | identity               | The hash obtained by the first pk of the account |
 
-- Types
+### script_bases
+Get the active address list by specific lock script base[^1], in the format of `<code_hash>:<hash_type>`.
 
+### Types
+
+- Address
 ```
 interface Address {
   address: string
@@ -72,7 +79,11 @@ interface Address {
   balance: string
   index: number
 }
+```
 
+- Transaction
+
+```
 interface Transaction {
   type: 'send' | 'receive' | 'create' | 'destroy'
   createdAt: string

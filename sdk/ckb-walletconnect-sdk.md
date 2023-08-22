@@ -50,7 +50,7 @@ if (ckbWC.isConnected()) {
 if (!ckbWC.isConnected()) {
   const { uri, approval } = await ckbWC.connect({
     chain: "ckb:testnet",
-    lockCodeHashes: [] // default: [] represent all types
+    scriptBases: [] // default: [] represent all types
   })  
 
   await web3Modal.openModal({ uri });
