@@ -34,7 +34,7 @@ Here is an example of a session approval message passing the namespace.
       }
     },
     "sessionProperties": {
-      "script_bases": "<script_base a>,<script_base b>",
+      "scriptBases": "<script_base a>,<script_base b>",
     },
   ...
 }
@@ -63,8 +63,8 @@ For context, see the [CAIP-10](https://github.com/ChainAgnostic/CAIPs/blob/maste
 | chain_id               | One of (mainnet, testnet, devnet)                |
 | identity               | The hash obtained by the first pk of the account |
 
-### script_bases
-Get the active address list by specific lock script base[^1], in the format of `<code_hash>:<hash_type>`.
+### scriptBases
+Script Base: It's the combination of `code_hash` and `hash_type` of a specific `script` in the format `<code_hash>:<hash_type>`. Without a concrete `args` of the `script`, the `script base` refers to the set of an abstract script. The relation between `script base` and `script` can be considered as `class` and `instance`.
 
 ### Types
 

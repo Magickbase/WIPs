@@ -82,7 +82,7 @@ const { uri, approval } = await signClient.connect({
     },
   },
   sessionProperties: {
-    script_bases: "<script_base a>,<script_base b>",
+    scriptBases: "<script_base a>,<script_base b>",
   },
 });
 await web3Modal.openModal({ uri });
@@ -142,7 +142,7 @@ A `session_proposal` event is received by the wallet just as soon as the connect
       }
     },
     "sessionProperties": {
-      "script_bases": "<script_base a>,<script_base b>"
+      "scriptBases": "<script_base a>,<script_base b>"
     }
   },
   "verifyContext": {
