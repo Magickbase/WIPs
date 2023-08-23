@@ -215,7 +215,6 @@ interface Address {
   address: string
   identifier: string
   description: string
-  type: 0 | 1 // 0 for receiving, 1 for change
   balance: string
   index: number
 }
