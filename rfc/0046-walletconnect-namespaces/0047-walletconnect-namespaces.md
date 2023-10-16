@@ -101,37 +101,8 @@ Get a Transaction[^3] over the provided instructions.
 
 ```ts
 {
-  data: {
-     cell_deps: {
-       out_point: {
-         tx_hash: string
-         index: string
-       }
-       dep_type: string
-     }[]
-     header_deps: string[]
-     inputs: {
-       previous_output: {
-         index: string
-         tx_hash: string
-       }
-       since: string
-     }[]
-     outputs: {
-     capacity: string
-       lock: {
-         args: string
-         code_hash: string
-         hash_type: 'type' | 'data'
-       },
-       type: {
-         args: string
-         code_hash: string
-         hash_type: 'type' | 'data'
-       }
-     }[]
-     outputs_data: string[]
-  },
+  transaction: Transaction
+  actionType: 'sign' | 'signAndSend'
   description: string
 }
 ```
@@ -140,7 +111,8 @@ Get a Transaction[^3] over the provided instructions.
 
 ```ts
 {
-  transaction: Transaction
+  transaction?: SignedTransaction 
+  hash?: string
 }
 ```
 
@@ -224,25 +196,57 @@ interface Address {
 
 ```ts
 interface Transaction {
-  type: 'send' | 'receive' | 'create' | 'destroy'
-  createdAt: string
-  updatedAt: string
-  timestamp: string
-  value: string
-  hash: string
-  description: string
-  blockNumber: string
-  status: 'pending' | 'success' | 'failed'
-  nervosDao: boolean
-  sudtInfo?: {
-    sUDT: Record<'tokenID' | 'tokenName' | 'symbol' | 'decimal', string>
-    amount: string
-  }
-  nftInfo?: {
-    type: 'send' | 'receive'
-    data: string
-  }
-  assetAccountType?: 'CKB' | 'sUDT' | string
+  cellDeps: {
+    outPoint: {
+      txHash: string;
+      index: string;
+    };
+    depType: string;
+  }[];
+  headerDeps: string[];
+  inputs: {
+    previousOutput: {
+      txHash: string;
+      index: string;
+    };
+    since: string;
+    capacity: string;
+    lock: {
+      args: string;
+      codeHash: string;
+      hashType: 'type' | 'data';
+    };
+    lockHash: string;
+  }[];
+  outputs: {
+    capacity: string;
+    lock: {
+      args: string;
+      codeHash: string;
+      hashType: 'type' | 'data';
+    };
+    type: {
+      args: string;
+      codeHash: string;
+      hashType: 'type' | 'data';
+    };
+  }[];
+  outputsData: string[];
+  description: string;
+  [key: string]: any;
+}
+```
+
+#### SignedTransaction
+
+```ts
+interface interface SignedTransaction {
+  transaction: Transaction;
+  signatures: {
+    [hash: string]: string[];
+  };
+  description: string;
+  [key: string]: any;
 }
 ```
 
