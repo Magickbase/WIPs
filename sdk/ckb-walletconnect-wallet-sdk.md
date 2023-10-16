@@ -11,86 +11,126 @@ WalletConnect provides a more secure and convenient experience for users and red
 ## Requirements
 Create an account on Wallet Connect website and then create a new Project, it's super easy, with just a few fields on the form. After that, you will be able to get your projectId and use it on your wallet.
 
-## Installation
-Install the dependency on your client-side application
+## Getting Started
+
+### Install
 
 ```
-npm i @nervosnetwork/ckb-walletconnect-wallet-sdk
+npm install ckb-walletconnect-wallet-sdk
 ```
 
-## Setup
-Initialize the SDK with the following code:
-```
-import CkbWallet from '@nervosnetwork/ckb-walletconnect-wallet-sdk'
+### Usage
 
-const ckbWallet = new CkbWallet({
-  clientOptions: {
-    projectId: '<project id>', // the ID of your project on Wallet Connect website
-    metadata: {
-      name: 'MyWalletnName',
-      description: 'My Wallet description', 
-      url: 'https://mywalletdescription.app/',
-      icons: ['https://mywalletdescription.app/mywalleticon.png'],
-    },
+- Initialization
+
+```javascript
+import { Core } from "@walletconnect/core";
+import { CkbWallet, getSdkError, CKBWalletAdapter, GetAddressesParams, SignTransactionParams, SignMessageParams } from "ckb-walletconnect-wallet-sdk";
+
+class Adapter implements CKBWalletAdapter {
+  async ckb_getAddresses(params: GetAddressesParams) {
+    // ...
+  }
+
+  async ckb_signTransaction(params: SignTransactionParams) {
+    // ...
+  }
+
+  async ckb_signMessage(params: SignMessageParams) {
+    // ...
+  }
+}
+
+const core = new Core({
+  projectId: process.env.PROJECT_ID,
+});
+
+const walletSDK = await CkbWallet.init({
+  core, 
+  metadata: {
+    name: "MyWalletnName",
+    description: "My Wallet description",
+    url: "https://mywalletdescription.com",
+    icons: ["https://mywalletdescription.com/mywalleticon.png"],
   },
-  method: {
-    ckb_getAddresses: <getAddresses function>,
-    ckb_signTransaction: <signTransaction function>,
-    ckb_signMessage: <signMessage function>,
+  adapter: new Adapter()
+});
+```
+
+- Connect
+
+```javascript
+await walletSDK.connect(uri);
+```
+- Proposals
+
+```javascript
+const proposals = walletSDK.proposals
+```
+
+- Sessions
+
+```javascript
+const sessions = walletSDK.sessions
+```
+
+- Session Requests
+
+```javascript
+const requests = walletSDK.requests()
+```
+
+- Session Approval
+
+```javascript
+const session = await walletSDK.approve({
+  id: proposal.id,
+  chain: 'testnet',
+  identity: 'xxxxxxxxxx',
+  scriptBases:  ['0x9bd7e06f3ecf4be0f2fcd2188b23f1b9fcc88e5d4b65a8637b17723bbda3cce8']
+});
+```
+
+- Session Rejection
+
+```javascript
+const session = await walletSDK.reject(proposal.id);
+```
+
+- Session Disconnect
+
+```javascript
+await walletSDK.disconnect(session.topic);
+```
+
+- Responding to Session Requests
+
+```javascript
+// Approve
+await walletSDK.approveRequest(request);
+
+// or Reject
+await walletSDK.rejectRequest(request);
+
+```
+
+- Emit Session Events
+
+```javascript
+await walletSDK.emitSessionEvent({
+  topic,
+  event: {
+    name: "accountsChanged",
+    data: ["xxxxxxxxxx"],
   },
-})
-
-await ckbWallet.init()
+  chainId: "ckb:testnet",
+});
 ```
 
-## Using the SDK
+- Handle Events
 
-### Connect to the Dapp
-Start the process of establishing a new connection. It will create a new proposal that needs to be accepted or rejected.
-
-```
-await ckbWallet.connect(
-  'wc:1d47f6e0-b21c-4c06-8cfe-142926fa1740@1?bridge=https%3A%2F%2F0.bridge.walletconnect.org&key=55433f7778ae7437fcc0579828c770b0517f592b81a76b4c289d09eb964d7091'
-)
-```
-
-### Disconnect from a specific dapp session
-```
-const session = ckbWallet.sessions[0]
-await ckbWallet.disconnect(session)
-```
-
-### Approve a specific connection proposal
-```
-const proposal = ckbWallet.proposals[0]
-await ckbWallet.approveProposal(proposal, {
-  account: "ckb:testnet:ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwh8z6fkne05j0emqeen59qnn8a6xkm3fs0xf9en"
-})
-```
-
-### Reject a specific connection proposal
-```
-const proposal = ckbWallet.proposals[0]
-await ckbWallet.rejectProposal(proposal)
-```
-
-### Approve a specific session request
-```
-const request = ckbWallet.requests[0]
-await ckbWallet.approveRequest(request)
-```
-
-### Reject a specific session request
-```
-const request = ckbWallet.requests[0]
-await ckbWallet.rejectRequest(request)
-```
-
-### Emit a event to a specific dapp session
-```
-const session = ckbWallet.sessions[0]
-await ckbWallet.emitEvent(session, {
-  name: 'chainChanged',
-  data: ['ckb:testnet']
-})
+```javascript
+walletSDK.emitter.on("proposals", handler);
+walletSDK.emitter.on("sessions", handler);
+walletSDK.emitter.on("requests", handler);
 ```
