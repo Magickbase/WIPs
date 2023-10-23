@@ -146,10 +146,7 @@ Emit the event when the account changed
 ```ts
 {
    name: "accountChanged",
-   data: {
-       account: string,
-       addresses: Address[]
-   },
+   data: string
 }
 ```
 
@@ -161,20 +158,9 @@ Emit the event when addresses changed
 {
    name: "addressesChanged",
    data: {
-        ...Address,
+        addresses: Address[],
         changeType: 'add' | 'consume' // add: new addresses created; consume: addresses consumed
-    }[]
-}
-```
-
-#### chainChanged
-
-Emit the event when the chain changed
-
-```ts
-{
-   name: "chainChanged",
-   data: string,
+    }
 }
 ```
 
